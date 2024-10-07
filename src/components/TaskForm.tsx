@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, FormEvent } from 'react';
 
 interface TaskFormProps {
@@ -20,7 +21,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
+    <form onSubmit={handleSubmit} className="mb-4" data-testid="task-form">
       <div className="flex flex-col">
         <div className="flex">
           <input

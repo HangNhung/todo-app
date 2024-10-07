@@ -3,5 +3,14 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "jsx": "react", // or "react-jsx"
+    "strict": true,
+    "esModuleInterop": true, // Ensure this is set to true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
 }
