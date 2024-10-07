@@ -14,18 +14,20 @@ interface TaskListProps {
 
 function TaskList({ tasks, onToggleTask, onDeleteTask }: TaskListProps) {
   return (
-    <ul className="space-y-2">
-      {tasks.length > 0
-        ? tasks.map((task) => (
-            <TaskItem
-              key={task.id}
-              task={task}
-              onToggle={() => onToggleTask(task.id)}
-              onDelete={() => onDeleteTask(task.id)}
-            />
-          ))
-        : null}
-    </ul>
+    <div className="max-h-60 overflow-auto">
+      <ul className="space-y-2">
+        {tasks.length > 0
+          ? tasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                onToggle={() => onToggleTask(task.id)}
+                onDelete={() => onDeleteTask(task.id)}
+              />
+            ))
+          : null}
+      </ul>
+    </div>
   );
 }
 

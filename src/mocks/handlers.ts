@@ -22,7 +22,10 @@ export const handlers = [
   http.post('/tasks', async ({ request }) => {
     const newTodo = await request.json();
     return HttpResponse.json(
-      { id: todos.length + 1, ...(newTodo as Todo) },
+      {
+        id: new Date().getTime(),
+        ...(newTodo as Todo),
+      },
       { status: 201 }
     );
   }),
