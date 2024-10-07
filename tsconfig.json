@@ -7,7 +7,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "jsx": "react", // or "react-jsx"
+    "jsx": "react-jsx", // or "react-jsx"
     "strict": true,
     "esModuleInterop": true, // Ensure this is set to true
     "skipLibCheck": true,
