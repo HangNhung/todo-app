@@ -1,4 +1,3 @@
-import './App.css';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import Filter from './components/Filter';
@@ -98,22 +97,20 @@ function App() {
   });
 
   return (
-    <>
-      <div className="max-w-lg mx-auto rounded-lg shadow-md overflow-hidden p-8">
-        <h1 className="text-3xl font-bold text-center mb-8">To-Do App</h1>
-        <TaskForm onAddTask={addTask} />
-        <Filter currentFilter={filter} onFilterChange={setFilter} />
-        {isLoading ? (
-          <p className="text-center mt-4">Loading tasks...</p>
-        ) : (
-          <TaskList
-            tasks={filteredTasks}
-            onToggleTask={toggleTask}
-            onDeleteTask={deleteTask}
-          />
-        )}
-      </div>
-    </>
+    <div className="max-w-md mx-auto rounded-lg shadow-md overflow-hidden p-8">
+      <h1 className="text-3xl font-bold text-center mb-8">To-Do App</h1>
+      <TaskForm onAddTask={addTask} />
+      <Filter currentFilter={filter} onFilterChange={setFilter} />
+      {isLoading ? (
+        <p className="text-center mt-4">Loading tasks...</p>
+      ) : (
+        <TaskList
+          tasks={filteredTasks}
+          onToggleTask={toggleTask}
+          onDeleteTask={deleteTask}
+        />
+      )}
+    </div>
   );
 }
 
