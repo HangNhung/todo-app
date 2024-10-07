@@ -14,12 +14,12 @@ let todos = [
 
 export const handlers = [
   // Handler to fetch all todos
-  http.get('/api/tasks', () => {
+  http.get('/tasks', () => {
     return HttpResponse.json(todos);
   }),
 
   // Handler to add a new todo
-  http.post('/api/tasks', async ({ request }) => {
+  http.post('/tasks', async ({ request }) => {
     const newTodo = await request.json();
     return HttpResponse.json(
       { id: todos.length + 1, ...(newTodo as Todo) },
@@ -28,7 +28,7 @@ export const handlers = [
   }),
 
   // Handler to toggle the completed field of a todo
-  http.put('/api/tasks/:id/toggle', ({ params }) => {
+  http.put('/tasks/:id/toggle', ({ params }) => {
     const { id } = params;
     const todo = todos.find((todo) => todo.id === Number(id));
     if (todo) {
@@ -39,7 +39,7 @@ export const handlers = [
   }),
 
   // Handler to delete a todo
-  http.delete('/api/tasks/:id', ({ params }) => {
+  http.delete('/tasks/:id', ({ params }) => {
     const { id } = params;
     todos = todos.filter((todo) => todo.id !== Number(id));
     return HttpResponse.json({ message: 'Todo deleted' });

@@ -3,19 +3,17 @@ import TaskList from './components/TaskList';
 import Filter from './components/Filter';
 import { useEffect, useState } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 // Mock API
 const mockAPI = {
   getTasks: async () => {
-    const response = await fetch(`${API_URL}/tasks`);
+    const response = await fetch(`/tasks`);
     if (!response.ok) {
       throw new Error('Failed to fetch tasks');
     }
     return response.json();
   },
   addTask: async (text: string) => {
-    const response = await fetch(`${API_URL}/tasks`, {
+    const response = await fetch(`/tasks`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +26,7 @@ const mockAPI = {
     return response.json();
   },
   toggleTask: async (id: number) => {
-    const response = await fetch(`${API_URL}/tasks/${id}/toggle`, {
+    const response = await fetch(`/tasks/${id}/toggle`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +39,7 @@ const mockAPI = {
     return response.json();
   },
   deleteTask: async (id: number) => {
-    const response = await fetch(`${API_URL}/tasks/${id}`, {
+    const response = await fetch(`/tasks/${id}`, {
       method: 'DELETE',
     });
     if (!response.ok) {
@@ -65,10 +63,17 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    mockAPI.getTasks().then((fetchedTasks: Task[]) => {
-      setTasks(fetchedTasks);
-      setIsLoading(false);
-    });
+    mockAPI
+      .getTasks()
+      .then((fetchedTasks: Task[]) => {
+        setTasks(fetchedTasks);
+      })
+      .catch(() => {
+        setTasks([]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const addTask = async (text: string) => {
