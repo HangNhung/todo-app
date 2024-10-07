@@ -4,28 +4,52 @@ import TaskList from './components/TaskList';
 import Filter from './components/Filter';
 import { useEffect, useState } from 'react';
 
+const API_URL = 'http://localhost:5173/api';
+
 // Mock API
 const mockAPI = {
-  getTasks: () =>
-    new Promise<Task[]>((resolve) =>
-      setTimeout(
-        () =>
-          resolve([
-            { id: 1, text: 'Learn React', completed: false },
-            { id: 2, text: 'Build a To-Do App', completed: true },
-            { id: 3, text: 'Master Tailwind CSS', completed: false },
-          ]),
-        500
-      )
-    ),
-  addTask: (text: string) =>
-    new Promise((resolve) =>
-      setTimeout(() => resolve({ id: Date.now(), text, completed: false }), 500)
-    ),
-  toggleTask: (id: number) =>
-    new Promise((resolve) => setTimeout(() => resolve(id), 500)),
-  deleteTask: (id: number) =>
-    new Promise((resolve) => setTimeout(() => resolve(id), 500)),
+  getTasks: async () => {
+    const response = await fetch(`${API_URL}/tasks`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch tasks');
+    }
+    return response.json();
+  },
+  addTask: async (text: string) => {
+    const response = await fetch(`${API_URL}/tasks`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ text, completed: false }),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to add task');
+    }
+    return response.json();
+  },
+  toggleTask: async (id: number) => {
+    const response = await fetch(`${API_URL}/tasks/${id}/toggle`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ completed: true }), // Assuming you want to toggle to completed
+    });
+    if (!response.ok) {
+      throw new Error('Failed to toggle task');
+    }
+    return response.json();
+  },
+  deleteTask: async (id: number) => {
+    const response = await fetch(`${API_URL}/tasks/${id}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      throw new Error('Failed to delete task');
+    }
+    return response.json();
+  },
 };
 
 type Task = {
