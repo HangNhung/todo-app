@@ -6,14 +6,14 @@ import { useEffect, useState } from 'react';
 // Mock API
 const mockAPI = {
   getTasks: async () => {
-    const response = await fetch(`/tasks`);
+    const response = await fetch(`/api/tasks`);
     if (!response.ok) {
       throw new Error('Failed to fetch tasks');
     }
     return response.json();
   },
   addTask: async (text: string) => {
-    const response = await fetch(`/tasks`, {
+    const response = await fetch(`/api/tasks`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ const mockAPI = {
     return response.json();
   },
   toggleTask: async (id: number) => {
-    const response = await fetch(`/tasks/${id}/toggle`, {
+    const response = await fetch(`/api/tasks/${id}/toggle`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const mockAPI = {
     return response.json();
   },
   deleteTask: async (id: number) => {
-    const response = await fetch(`/tasks/${id}`, {
+    const response = await fetch(`/api/tasks/${id}`, {
       method: 'DELETE',
     });
     if (!response.ok) {
@@ -78,7 +78,7 @@ function App() {
 
   const addTask = async (text: string) => {
     const newTask = (await mockAPI.addTask(text)) as Task;
-    setTasks([...tasks, newTask]);
+    setTasks((prevTasks) => [newTask, ...prevTasks]); // Add new task to the top
   };
 
   const toggleTask = async (id: number) => {
@@ -102,19 +102,21 @@ function App() {
   });
 
   return (
-    <div className="max-w-md mx-auto rounded-lg shadow-md overflow-hidden p-8">
-      <h1 className="text-3xl font-bold text-center mb-8">To-Do App</h1>
-      <TaskForm onAddTask={addTask} />
-      <Filter currentFilter={filter} onFilterChange={setFilter} />
-      {isLoading ? (
-        <p className="text-center mt-4">Loading tasks...</p>
-      ) : (
-        <TaskList
-          tasks={filteredTasks}
-          onToggleTask={toggleTask}
-          onDeleteTask={deleteTask}
-        />
-      )}
+    <div className="max-w-md mx-auto rounded-lg shadow-md overflow-hidden p-8 bg-gray-100">
+      <div className="p-6">
+        <h1 className="text-3xl font-bold text-center mb-8">To-Do App</h1>
+        <TaskForm onAddTask={addTask} />
+        <Filter currentFilter={filter} onFilterChange={setFilter} />
+        {isLoading ? (
+          <p className="text-center mt-4">Loading tasks...</p>
+        ) : (
+          <TaskList
+            tasks={filteredTasks}
+            onToggleTask={toggleTask}
+            onDeleteTask={deleteTask}
+          />
+        )}
+      </div>
     </div>
   );
 }
